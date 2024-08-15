@@ -14,11 +14,31 @@ function MyReact () {
         if (states.length === key) states.push(initState);
         const state = states[key];
         const setState = (newState) => {
+            if (Object.is(states[key], newState)) {
+                return ;
+            }
             states[key] = newState;
             _render();
         }
         options.currentStateKey += 1;
         return [state, setState];
+    }
+    function useEffect (callback, dependencies) {
+        const {currentStateKey : key, states} = options;
+        const oldDependencies = states[key];
+
+        let isChanged = true;
+        
+        if (oldDependencies) {
+            isChanged = dependencies.some(
+                (dep, i) => !Object.is(dep, oldDependencies[i])
+            );
+        }
+        if (isChanged) {
+            callback();
+            states[key] = dependencies;
+        }
+        options.currentStateKey += 1;
     }
     const _render = debounceFrame(()=>{
         const {root, rootComponent} = options;
@@ -35,7 +55,5 @@ function MyReact () {
   
     return { useState, render , _render };
 }
-
-// 어지러...
   
  export const { useState, render, _render } = MyReact();
