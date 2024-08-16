@@ -6,7 +6,7 @@ function MyReact () {
         currentStateKey : 0,
         renderCount: 0,
         states : [],
-        cleanupFunctions : [],
+        effects : [],
         root : null,
         rootComponent : null
     }
@@ -25,37 +25,39 @@ function MyReact () {
         return [state, setState];
     }
     function useEffect (callback, dependencies) {
-        const {currentStateKey : key, states} = options;
+        const {currentStateKey : key, states, effects} = options;
         const oldDependencies = states[key];
 
         let isChanged = true;
         
-        if (oldDependencies) {
+        if (oldDependencies && dependencies) {
             isChanged = dependencies.some(
                 (dep, i) => !Object.is(dep, oldDependencies[i])
             );
         }
         if (isChanged) {
-            if (cleanupFunctions[key]) {
-                cleanupFunctions[key]();
+            if (effects[key]?.cleanup) {
+                effects[key].cleanup();
             }
 
             const newcleanup = callback();
-            if (typeof newcleanup === 'function') {
-                cleanupFunctions[key] = newcleanup;
-            } else {
-                cleanupFunctions[key] = null;
+            effects[key] = {
+                cleanup : typeof newcleanup === 'function' ? newcleanup : null,
+                deps : dependencies,
             }
             states[key] = dependencies;
         }
         options.currentStateKey += 1;
     }
     const _render = debounceFrame(()=>{
-        const {root, rootComponent} = options;
+        const {root, rootComponent, effects} = options;
         if (!root || !rootComponent) return ;
         root.innerHTML = rootComponent();
         options.currentStateKey = 0;
         options.renderCount+=1;
+
+        effects.forEach(effect => effect.cleanup?.());
+        options.effects = [];
     });
     function render (root, rootComponent) {
         options.root = root ;
@@ -63,7 +65,7 @@ function MyReact () {
         _render();
     }
   
-    return { useState, render , _render };
+    return { useState, useEffect, render , _render };
 }
   
  export const { useState, useEffect , render, _render } = MyReact();
