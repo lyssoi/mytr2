@@ -1,4 +1,4 @@
 node_modules/
-package-lock.josn
-package.josn
-srcs/server.js
+package-lock.json
+package.json
+frontend/srcs/server.js

@@ -1,5 +1,5 @@
 class Selector {
-    constructor ({key, get, set = null}) { // key, get, set을 받는데.. set은 안받을 수도
+    constructor ({key, get, set = null}) {
         this.key = key;
         this.get = get;
         this.set = set;

@@ -1,11 +1,12 @@
 {
     "name": "my-express-app",
     "version": "1.0.0",
-    "main": "srcs/server.js",
+    "main": "frontend/srcs/server.js",
     "scripts": {
-      "start": "node srcs/server.js"
+        "start": "node frontend/srcs/server.js"
     },
     "dependencies": {
-      "express": "^4.18.2"
+        "bootstrap": "^5.3.3",
+        "express": "^4.18.2"
     }
-  }
+}
