@@ -6,6 +6,7 @@ function MyReact () {
         currentStateKey : 0,
         renderCount: 0,
         states : [],
+        cleanupFunctions : [],
         root : null,
         rootComponent : null
     }
@@ -35,7 +36,16 @@ function MyReact () {
             );
         }
         if (isChanged) {
-            callback();
+            if (cleanupFunctions[key]) {
+                cleanupFunctions[key]();
+            }
+
+            const newcleanup = callback();
+            if (typeof newcleanup === 'function') {
+                cleanupFunctions[key] = newcleanup;
+            } else {
+                cleanupFunctions[key] = null;
+            }
             states[key] = dependencies;
         }
         options.currentStateKey += 1;
@@ -56,4 +66,4 @@ function MyReact () {
     return { useState, render , _render };
 }
   
- export const { useState, render, _render } = MyReact();
+ export const { useState, useEffect , render, _render } = MyReact();
