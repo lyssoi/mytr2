@@ -1,4 +1,4 @@
-import { Router } from "./myreact/Router.js";
+import { Router } from "./core/myreact/Router.js";
 import { Header } from "./components/Header.js";
 
 export function Rayout () {

@@ -1,4 +1,4 @@
-export function debounceFrame (callback) {
+export default function debounceFrame (callback) {
     let nextFrameCallback = -1;
     return () => {
         cancelAnimationFrame(nextFrameCallback);

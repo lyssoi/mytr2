@@ -1,5 +1,5 @@
-import { debounceFrame } from "./debounceFrame.js";
 
+import debounceFrame from "./debounceFrame.js";
 
 function MyReact () {
     const options = {

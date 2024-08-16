@@ -1,4 +1,4 @@
-import { _render } from "../myreact/myreact.js";
+import { _render } from "../core/myreact/myreact.js";
 
 export function changeUrl (url) {
     history.pushState(null, null, url);

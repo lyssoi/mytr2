@@ -1,6 +1,6 @@
-import { Home } from "../pages/Home.js";
-import { UserInfo } from "../pages/UserInfo.js";
-import { parseUrl } from "../utils/parseUrl.js";
+import { Home } from "../../pages/Home.js";
+import { UserInfo } from "../../pages/UserInfo.js";
+import { parseUrl } from "../../utils/parseUrl.js";
 
 export function Router() {
 

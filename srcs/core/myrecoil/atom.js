@@ -22,4 +22,4 @@ class Atom {
     }
 
 }
-export default { Atom };
+export { Atom };
